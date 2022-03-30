@@ -1,3 +1,6 @@
+from sucursal_class import Sucursal
+
+
 class Vendedor:
     
     def __init__(self, run, nombre, apellido, seccion, comision=0, empleado_de_mes=0, ventas = 0): 

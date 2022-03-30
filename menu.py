@@ -9,11 +9,11 @@ from vendedor_class import Vendedor
 ######### INSTANCIAMIENTO DE OBJETOS ################
 a={"1":1000,"2":1000,"3":1000, "4":1000, "5":1000}
 b={
-    "1":2,
-    "2":2,
-    "3":1, 
-    "4":2, 
-    "5":2
+    "1":50,
+    "2":50,
+    "3":50, 
+    "4":50, 
+    "5":50
     }
 bodega=BodegaPrincipal("Arlegui 400 Viña del Mar", 5000, a)
 sucursal=Sucursal("1 Norte 1400 Viña del Mar", 1000, b)
@@ -246,6 +246,15 @@ while True:
 
                 limpiar()
                 vendedores[v].vender(productos[p], clientes[c])
+                b[p]-=1
+
+                if productos[p].stock <50:
+                    print("Solicitando reposición de stock . . .")
+                    bodega.despachar_producto(p, 300, sucursal)        
+                    print(f"El nuevo stock de {productos[p].nombre} es de {sucursal.stock[p]} unidad(es).")            
+            
+                else:
+                    pass
                 input()
                 
             elif op2 == 3:
