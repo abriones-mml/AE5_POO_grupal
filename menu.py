@@ -152,6 +152,7 @@ while True:
             elif op1 == 5:
                 break
         
+    # Menú Ventas    
     if op == 2:
         
         while True:
@@ -163,6 +164,7 @@ while True:
         
             op2 = int(input("\nSeleccione opción: "))
 
+            # 2.1 Info vendedores
             if op2 == 1:
                 limpiar()
                 print("Equipo de vendedores:\n")
@@ -172,6 +174,7 @@ while True:
                     print(vendedores[key])
                 input("\n")
             
+            # 2.3 Vender
             elif op2 == 2:
                 limpiar()
                 print("Vendedores:\n")
@@ -188,30 +191,31 @@ while True:
                 limpiar()
                 print("Productos:\n")
                 for key in productos:
-                    print(f"[{key}]\t{productos[key].nombre.capitalize()}")
-                p = input("\nSeleccione producto para venta: ")
+                    print("{:3}{:30}{:10}".format(key, productos[key].nombre.capitalize(), productos[key].valor_neto))
+                p = input(f"\nSeleccione producto para venta (saldo del cliente {clientes[c].nombre.capitalize()} {clientes[c].apellido.capitalize()}: ${clientes[c]._Cliente__saldo}): ")
                 
                 limpiar()
                 despacho = int(input("Requiere despacho del producto? (0: No  1: Si): "))
                 
                 limpiar()
-                ord = vendedores[v].vender(productos[p], clientes[c], despacho)
+                emitir_orden = vendedores[v].vender(productos[p], clientes[c], despacho)
                 b[p]-=1
-                orden = OrdendeCompra(ventas, productos[p], despacho)
                 input()
                 
-                limpiar()
-                orden.mostrar_orden(productos[p], clientes[v], vendedores[v], ord)
-                input()
+                if emitir_orden:
+                    limpiar()
+                    orden = OrdendeCompra(ventas, productos[p], despacho)
+                    orden.mostrar_orden(productos[p], clientes[c], vendedores[v], int(0.19*productos[p].valor_neto))
+                    ventas += 1
+                    input()
                 
                 if productos[p].stock <50:
-                    print("Solicitando reposición de stock . . .")
+                    limpiar()
+                    print(f"Stock del producto {productos[p].nombre} es de {productos[p].stock} unidades, Solicitando reposición de stock . . .")
                     bodega.despachar_producto(p, 300, sucursal)        
                     print(f"El nuevo stock de {productos[p].nombre} es de {sucursal.stock[p]} unidad(es).")            
             
-                else:
-                    pass
-                input()
+                    input()
                 
             elif op2 == 3:
                 break
